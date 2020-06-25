@@ -5,6 +5,7 @@ namespace Api.RestSharp.TestFramework.Tests
     [TestClass()]
     public class ApiClientTests
     {
+
         ApiClient apiClient = new ApiClient();
 
         [TestMethod()]
