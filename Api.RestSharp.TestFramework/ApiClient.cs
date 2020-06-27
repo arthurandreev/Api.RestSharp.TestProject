@@ -34,12 +34,22 @@ namespace Api.RestSharp.TestFramework
             return response;
         }
 
-        public IRestResponse DeleteById(int id)
+        public IRestResponse DeleteByIdRequest(int id)
         {
             string toDoId = id.ToString();
             var client = new RestClient($"https://jsonplaceholder.typicode.com/todos/{toDoId}");
             var request = new RestRequest();
             IRestResponse response = client.Delete(request);
+            return response;
+        }
+
+        public IRestResponse PutRequest(int id, ToDoItemPOCO toDoItemPOCO)
+        {
+            string toDoId = id.ToString();
+            var client = new RestClient($"https://jsonplaceholder.typicode.com/todos/{toDoId}");
+            var request = new RestRequest();
+            request.AddJsonBody(toDoItemPOCO);
+            IRestResponse response = client.Put(request);
             return response;
         }
     }
