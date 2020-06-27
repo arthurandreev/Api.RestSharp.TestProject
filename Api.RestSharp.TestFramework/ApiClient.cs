@@ -1,4 +1,5 @@
 ﻿using RestSharp;
+using System;
 using System.Threading.Tasks;
 
 namespace Api.RestSharp.TestFramework
@@ -10,18 +11,36 @@ namespace Api.RestSharp.TestFramework
         }
         public async Task<IRestResponse> GetRequestAsync()
         {
-            var client = new RestClient("https://enctb0wvfhqy9.x.pipedream.net");
+            var client = new RestClient("https://jsonplaceholder.typicode.com/todos");
+            var request = new RestRequest();
+            IRestResponse response = await client.ExecuteAsync(request);
+            return response;
+        }
+            
+        public async Task<IRestResponse> PostRequestAsync(ToDoItem toDoItem)
+        {
+            var client = new RestClient("https://jsonplaceholder.typicode.com/todos");
+            var request = new RestRequest();
+            request.AddJsonBody(toDoItem);
+            IRestResponse response = await client.ExecutePostAsync(request, cancellationToken: default);
+            return response;
+        }
+
+        public async Task<IRestResponse> GetByIdRequestAsync(int id)
+        {
+            string toDoId = id.ToString();
+            var client = new RestClient($"https://jsonplaceholder.typicode.com/todos/{toDoId}");
             var request = new RestRequest();
             IRestResponse response = await client.ExecuteAsync(request);
             return response;
         }
 
-        public async Task<IRestResponse> PostRequestAsync(AreaCode areaCode)
+        public IRestResponse DeleteById(int id)
         {
-            var client = new RestClient("https://enctb0wvfhqy9.x.pipedream.net");
+            string toDoId = id.ToString();
+            var client = new RestClient($"https://jsonplaceholder.typicode.com/todos/{toDoId}");
             var request = new RestRequest();
-            request.AddJsonBody(areaCode);
-            IRestResponse response = await client.ExecutePostAsync(request, cancellationToken: default);
+            IRestResponse response = client.Delete(request);
             return response;
         }
     }
