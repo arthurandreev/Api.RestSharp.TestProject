@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RestSharp;
 using System.Net;
 
 namespace Api.RestSharp.TestFramework.Tests
@@ -30,7 +29,6 @@ namespace Api.RestSharp.TestFramework.Tests
             Assert.AreEqual("delectus aut autem", responsePOCO.Title);
             Assert.IsFalse(responsePOCO.Completed);
             Assert.AreEqual(1, responsePOCO.Id);
-
         }
 
         [TestMethod(), TestCategory("CRUD")]
@@ -49,9 +47,24 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
+        public void TestPutEndpoint()
+        {
+            var toDoItemPOCO = new ToDoItemPOCO { UserId = 1, Id = 1, Completed = true, Title = "Go for a jog" };
+            var response = apiClient.PutRequest(1, toDoItemPOCO);
+            var jsonResponse = response.Content.ToString();
+            ToDoItemPOCO responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCO>(jsonResponse);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.IsTrue(response.Server == "cloudflare");
+            Assert.AreEqual("Go for a jog", responsePOCO.Title);
+            Assert.IsTrue(responsePOCO.Completed);
+            Assert.AreEqual(1, responsePOCO.UserId);
+            Assert.AreEqual(1, responsePOCO.Id);
+        }
+
+        [TestMethod(), TestCategory("CRUD")]
         public void TestDeleteEndpoint()
         {
-            var response = apiClient.DeleteById(1);
+            var response = apiClient.DeleteByIdRequest(1);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.IsTrue(response.Server == "cloudflare");
         }
