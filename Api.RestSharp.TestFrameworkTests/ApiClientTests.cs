@@ -68,5 +68,6 @@ namespace Api.RestSharp.TestFramework.Tests
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.IsTrue(response.Server == "cloudflare");
         }
+
     }
 }
