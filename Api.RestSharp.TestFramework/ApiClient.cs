@@ -1,5 +1,4 @@
 ﻿using RestSharp;
-using System;
 using System.Threading.Tasks;
 
 namespace Api.RestSharp.TestFramework

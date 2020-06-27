@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RestSharp;
 using System.Net;
 
 namespace Api.RestSharp.TestFramework.Tests
