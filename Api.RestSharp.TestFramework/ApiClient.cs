@@ -16,7 +16,7 @@ namespace Api.RestSharp.TestFramework
             return response;
         }
             
-        public async Task<IRestResponse> PostRequestAsync(ToDoItem toDoItem)
+        public async Task<IRestResponse> PostRequestAsync(ToDoItemPOCOWithoutId toDoItem)
         {
             var client = new RestClient("https://jsonplaceholder.typicode.com/todos");
             var request = new RestRequest();
@@ -43,7 +43,7 @@ namespace Api.RestSharp.TestFramework
             return response;
         }
 
-        public IRestResponse PutRequest(int id, ToDoItemPOCO toDoItemPOCO)
+        public IRestResponse PutRequest(int id, ToDoItemPOCOWithId toDoItemPOCO)
         {
             string toDoId = id.ToString();
             var client = new RestClient($"https://jsonplaceholder.typicode.com/todos/{toDoId}");

@@ -22,7 +22,7 @@ namespace Api.RestSharp.TestFramework.Tests
         {
             var response = apiClient.GetByIdRequestAsync(1);
             var jsonResponse = response.Result.Content.ToString();
-            ToDoItemPOCO responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCO>(jsonResponse);
+            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
             Assert.IsTrue(response.Result.Server == "cloudflare");
             Assert.IsTrue(response.Result.ContentType.Equals("application/json; charset=utf-8"));
@@ -34,10 +34,10 @@ namespace Api.RestSharp.TestFramework.Tests
         [TestMethod(), TestCategory("CRUD")]
         public void TestPostEndpoint()
         {
-            var toDoItem = new ToDoItem { Title = "Water plants", Completed = true, UserId = 1 };
+            var toDoItem = new ToDoItemPOCOWithoutId { Title = "Water plants", Completed = true, UserId = 1 };
             var response = apiClient.PostRequestAsync(toDoItem);
             var jsonResponse = response.Result.Content.ToString();
-            ToDoItemPOCO responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCO>(jsonResponse);
+            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
             Assert.AreEqual(HttpStatusCode.Created, response.Result.StatusCode);
             Assert.IsTrue(response.Result.Server == "cloudflare");
             Assert.IsTrue(response.Result.ContentType.Equals("application/json; charset=utf-8"));
@@ -49,10 +49,10 @@ namespace Api.RestSharp.TestFramework.Tests
         [TestMethod(), TestCategory("CRUD")]
         public void TestPutEndpoint()
         {
-            var toDoItemPOCO = new ToDoItemPOCO { UserId = 1, Id = 1, Completed = true, Title = "Go for a jog" };
+            var toDoItemPOCO = new ToDoItemPOCOWithId { UserId = 1, Id = 1, Completed = true, Title = "Go for a jog" };
             var response = apiClient.PutRequest(1, toDoItemPOCO);
             var jsonResponse = response.Content.ToString();
-            ToDoItemPOCO responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCO>(jsonResponse);
+            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.IsTrue(response.Server == "cloudflare");
             Assert.AreEqual("Go for a jog", responsePOCO.Title);
