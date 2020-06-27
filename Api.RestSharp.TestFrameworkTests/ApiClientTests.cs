@@ -30,7 +30,6 @@ namespace Api.RestSharp.TestFramework.Tests
             Assert.AreEqual("delectus aut autem", responsePOCO.Title);
             Assert.IsFalse(responsePOCO.Completed);
             Assert.AreEqual(1, responsePOCO.Id);
-
         }
 
         [TestMethod(), TestCategory("CRUD")]
