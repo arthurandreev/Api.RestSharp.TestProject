@@ -34,5 +34,14 @@ namespace Api.RestSharp.TestFramework
             IRestResponse response = await client.ExecuteAsync(request);
             return response;
         }
+
+        public IRestResponse DeleteById(int id)
+        {
+            string toDoId = id.ToString();
+            var client = new RestClient($"https://jsonplaceholder.typicode.com/todos/{toDoId}");
+            var request = new RestRequest();
+            IRestResponse response = client.Delete(request);
+            return response;
+        }
     }
 }

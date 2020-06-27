@@ -10,7 +10,7 @@ namespace Api.RestSharp.TestFramework.Tests
         ApiClient apiClient = new ApiClient();
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestGetRequest()
+        public void TestGetEndpoint()
         {
             var response = apiClient.GetRequestAsync();
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
@@ -19,7 +19,7 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestGetByIdRequest()
+        public void TestGetByIdEndpoint()
         {
             var response = apiClient.GetByIdRequestAsync(1);
             var jsonResponse = response.Result.Content.ToString();
@@ -34,7 +34,7 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestPostRequest()
+        public void TestPostEndpoint()
         {
             var toDoItem = new ToDoItem { Title = "Water plants", Completed = true, UserId = 1 };
             var response = apiClient.PostRequestAsync(toDoItem);
@@ -46,6 +46,14 @@ namespace Api.RestSharp.TestFramework.Tests
             Assert.AreEqual("Water plants", responsePOCO.Title);
             Assert.IsTrue(responsePOCO.Completed);
             Assert.AreEqual(1, responsePOCO.UserId);
+        }
+
+        [TestMethod(), TestCategory("CRUD")]
+        public void TestDeleteEndpoint()
+        {
+            var response = apiClient.DeleteById(1);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.IsTrue(response.Server == "cloudflare");
         }
     }
 }
