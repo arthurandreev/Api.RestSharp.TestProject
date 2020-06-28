@@ -9,7 +9,7 @@ namespace Api.RestSharp.TestFramework.Tests
         ApiClient apiClient = new ApiClient();
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestGetEndpoint()
+        public void TestGetEndpoint_HappyPath200()
         {
             var response = apiClient.GetRequestAsync();
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
@@ -18,7 +18,7 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestGetByIdEndpoint()
+        public void TestGetByIdEndpoint_HappyPath200()
         {
             var response = apiClient.GetByIdRequestAsync(1);
             var jsonResponse = response.Result.Content.ToString();
@@ -32,7 +32,18 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestPostEndpoint()
+        public void TestGetByIdEndpoint_SadPath404()
+        {
+            var response = apiClient.GetByIdRequestAsync(123456789);
+            var jsonResponse = response.Result.Content.ToString();
+            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
+            Assert.AreEqual(HttpStatusCode.NotFound, response.Result.StatusCode);
+            Assert.IsTrue(response.Result.Server == "cloudflare");
+            Assert.IsTrue(response.Result.ContentType.Equals("application/json; charset=utf-8"));
+        }
+
+        [TestMethod(), TestCategory("CRUD")]
+        public void TestPostEndpoint_HappyPath201()
         {
             var toDoItem = new ToDoItemPOCOWithoutId { Title = "Water plants", Completed = true, UserId = 1 };
             var response = apiClient.PostRequestAsync(toDoItem);
@@ -47,7 +58,7 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestPutEndpoint()
+        public void TestPutEndpoint_HappyPath200()
         {
             var toDoItemPOCO = new ToDoItemPOCOWithId { UserId = 1, Id = 1, Completed = true, Title = "Go for a jog" };
             var response = apiClient.PutRequest(1, toDoItemPOCO);
@@ -62,12 +73,11 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestDeleteEndpoint()
+        public void TestDeleteEndpoint_HappyPath200()
         {
             var response = apiClient.DeleteByIdRequest(1);
             Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
             Assert.IsTrue(response.Server == "cloudflare");
         }
-
     }
 }
