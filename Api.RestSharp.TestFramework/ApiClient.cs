@@ -5,9 +5,7 @@ namespace Api.RestSharp.TestFramework
 {
     public class ApiClient
     {
-        public ApiClient()
-        {
-        }
+        public ApiClient() {}
         public async Task<IRestResponse> GetRequestAsync()
         {
             var client = new RestClient("https://jsonplaceholder.typicode.com/todos");
