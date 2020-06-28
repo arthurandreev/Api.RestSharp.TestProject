@@ -12,4 +12,4 @@ However a major downside to this mock API service is that the data sent to it is
 - Refactor to follow best RestSharp practices - TODO
 
 ### Possible Extensions
-- Host the project on a cloud hosting platform to enable automated nightly test runs in CI/CD pipeline - TODO
+- Host the project on Microsoft Azure to enable automated nightly test runs in CI/CD pipeline - TODO
