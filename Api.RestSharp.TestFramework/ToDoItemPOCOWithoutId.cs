@@ -7,5 +7,4 @@
         public int UserId { get; set; }
         public ToDoItemPOCOWithoutId() { }
     }
-
 }

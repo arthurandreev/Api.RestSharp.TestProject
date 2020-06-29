@@ -55,9 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
-    <Compile Include="ToDoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ToDoItemPOCO.cs" />
+    <Compile Include="ToDoItemPOCOWithId.cs" />
+    <Compile Include="ToDoItemPOCOWithoutId.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
