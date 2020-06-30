@@ -9,6 +9,7 @@ However a major downside to this mock API service is that the data sent to it is
 ### MVP
 - Write tests for CRUD endpoints - DONE
 - Write code for CRUD endpoints - DONE
+- Add specflow to the project - TODO
 - Refactor to follow best RestSharp practices - TODO
 
 ### Possible Extensions
