@@ -1,12 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net;
+using Newtonsoft.Json;
 
 namespace Api.RestSharp.TestFramework.Tests
 {
     [TestClass()]
     public class ApiClientTests
     {
-        ApiClient apiClient = new ApiClient();
+        private ApiClient apiClient = new ApiClient();
 
         [TestMethod(), TestCategory("CRUD")]
         public void TestGetEndpoint_HappyPath200()
@@ -22,7 +23,7 @@ namespace Api.RestSharp.TestFramework.Tests
         {
             var response = apiClient.GetByIdRequestAsync(1);
             var jsonResponse = response.Result.Content.ToString();
-            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
+            ToDoItemPOCOWithId responsePOCO = JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
             Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
             Assert.IsTrue(response.Result.Server == "cloudflare");
             Assert.IsTrue(response.Result.ContentType.Equals("application/json; charset=utf-8"));
@@ -32,11 +33,11 @@ namespace Api.RestSharp.TestFramework.Tests
         }
 
         [TestMethod(), TestCategory("CRUD")]
-        public void TestGetByIdEndpoint_SadPath404()
+        public void TestGetByIdEndpoint_UnhappyPath404()
         {
             var response = apiClient.GetByIdRequestAsync(123456789);
             var jsonResponse = response.Result.Content.ToString();
-            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
+            ToDoItemPOCOWithId responsePOCO = JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
             Assert.AreEqual(HttpStatusCode.NotFound, response.Result.StatusCode);
             Assert.IsTrue(response.Result.Server == "cloudflare");
             Assert.IsTrue(response.Result.ContentType.Equals("application/json; charset=utf-8"));
@@ -48,7 +49,7 @@ namespace Api.RestSharp.TestFramework.Tests
             var toDoItem = new ToDoItemPOCOWithoutId { Title = "Water plants", Completed = true, UserId = 1 };
             var response = apiClient.PostRequestAsync(toDoItem);
             var jsonResponse = response.Result.Content.ToString();
-            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
+            ToDoItemPOCOWithId responsePOCO = JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
             Assert.AreEqual(HttpStatusCode.Created, response.Result.StatusCode);
             Assert.IsTrue(response.Result.Server == "cloudflare");
             Assert.IsTrue(response.Result.ContentType.Equals("application/json; charset=utf-8"));
@@ -61,11 +62,11 @@ namespace Api.RestSharp.TestFramework.Tests
         public void TestPutEndpoint_HappyPath200()
         {
             var toDoItemPOCO = new ToDoItemPOCOWithId { UserId = 1, Id = 1, Completed = true, Title = "Go for a jog" };
-            var response = apiClient.PutRequest(1, toDoItemPOCO);
-            var jsonResponse = response.Content.ToString();
-            ToDoItemPOCOWithId responsePOCO = Newtonsoft.Json.JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.IsTrue(response.Server == "cloudflare");
+            var response = apiClient.PutRequestAsync(1, toDoItemPOCO);
+            var jsonResponse = response.Result.Content.ToString();
+            ToDoItemPOCOWithId responsePOCO = JsonConvert.DeserializeObject<ToDoItemPOCOWithId>(jsonResponse);
+            Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
+            Assert.IsTrue(response.Result.Server == "cloudflare");
             Assert.AreEqual("Go for a jog", responsePOCO.Title);
             Assert.IsTrue(responsePOCO.Completed);
             Assert.AreEqual(1, responsePOCO.UserId);
@@ -75,9 +76,9 @@ namespace Api.RestSharp.TestFramework.Tests
         [TestMethod(), TestCategory("CRUD")]
         public void TestDeleteEndpoint_HappyPath200()
         {
-            var response = apiClient.DeleteByIdRequest(1);
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.IsTrue(response.Server == "cloudflare");
+            var response = apiClient.DeleteByIdRequestAsync(1);
+            Assert.AreEqual(HttpStatusCode.OK, response.Result.StatusCode);
+            Assert.IsTrue(response.Result.Server == "cloudflare");
         }
     }
 }
