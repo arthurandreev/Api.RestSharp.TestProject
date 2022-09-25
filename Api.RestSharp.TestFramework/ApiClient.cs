@@ -20,7 +20,7 @@ namespace Api.RestSharp.TestFramework
             var client = new RestClient($"{baseUrl}/todos");
             var request = new RestRequest();
             request.AddJsonBody(toDoItem);
-            IRestResponse response = await client.ExecutePostAsync(request, cancellationToken: default);
+            IRestResponse response = await client.ExecutePostAsync(request);
             return response;
         }
 
