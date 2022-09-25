@@ -27,7 +27,6 @@ namespace Api.RestSharp.TestFramework
         public async Task<IRestResponse> GetByIdRequestAsync(int id)
         {
             string toDoId = id.ToString();
-            //var client = new RestClient($"https://jsonplaceholder.typicode.com/todos/{toDoId}");
             var client = new RestClient($"{baseUrl}/todos/{toDoId}");
             var request = new RestRequest();
             IRestResponse response = await client.ExecuteAsync(request);
